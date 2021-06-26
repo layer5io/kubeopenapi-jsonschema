@@ -1,0 +1,17 @@
+{
+  "name": "openapi-jsonschema",
+  "version": "0.0.1",
+  "description": "Convert OpenAPI v3 spec to JSONSchema draft 4",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Utkarsh Srivastava",
+  "license": "MIT",
+  "dependencies": {
+    "@openapi-contrib/openapi-schema-to-json-schema": "^3.1.1",
+    "commander": "^7.2.0",
+    "js-yaml": "^4.1.0",
+    "jsonpath": "^1.1.1"
+  }
+}

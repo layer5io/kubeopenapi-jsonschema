@@ -1,24 +1,10 @@
-check:
-	golangci-lint run
+make: linux darwin windows
 
-check-clean-cache:
-	golangci-lint cache clean
+darwin:
+	nexe index.js -t darwin-x64 -o kubeopenapi-jsonschema-darwin
 
-protoc-setup:
-	wget -P meshes https://raw.githubusercontent.com/layer5io/meshery/master/meshes/meshops.proto
+linux:
+	nexe index.js -t linux-x64 -o kubeopenapi-jsonschema
 
-proto:
-	protoc -I meshes/ meshes/meshops.proto --go_out=plugins=grpc:./meshes/
-
-
-
-
-
-site:
-	$(jekyll) serve --drafts --livereload
-
-build:
-	$(jekyll) build --drafts
-
-docker:
-	docker run --name site -d --rm -p 4000:4000 -v `pwd`:"/srv/jekyll" jekyll/jekyll:4.0.0 bash -c "bundle install; jekyll serve --drafts --livereload"
+windows:
+	nexe index.js -t windows-x64 -o kubeopenapi-jsonschema
