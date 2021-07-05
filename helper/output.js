@@ -7,7 +7,7 @@ const jp = require("jsonpath");
  * @param {*} data
  * @param {"json" | "yaml"} format output format
  */
-function Output(data, format = "json", filter = "", silent = false) {
+function Output(data, format = "json", filter = "$", silent = false) {
   if (silent) return;
 
   data = jp.query(data, filter);
