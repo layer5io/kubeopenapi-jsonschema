@@ -4,7 +4,7 @@ This is a very basic node based CLI for converting OpenAPI schema to JSON Schema
 
 
 ```
-Usage: openapi-jsonschema [options]
+Usage: kubeopenapi-jsonschema [options]
 
 Options:
   -t, --type [type]           set type of input, can be either yaml or json (default: "yaml")
@@ -14,6 +14,7 @@ Options:
   -o [output-format]          output format (default: "json")
   --o-filter [output-filter]  output filter query
   --silent                    skip output (default: false)
+  --resolve [resolve-filter]  root of the OpenAPI spec to resolve the $ref. It is important to note that this jsonpath MUST evaluate to one object (default: "")
   -h, --help                  display help for command
 ```
 
@@ -22,8 +23,17 @@ Options:
 Download the binaries from the github releases. Only linux-x64, darwin-x64 and windows-x64 binaries are released
 
 ```bash
-openapi-jsonschema --location ./istio.yaml -t yaml --filter '$[?(@.kind=="CustomResourceDefinition" && @.spec.names.kind=="EnvoyFilter")]..validation.openAPIV3Schema.properties.spec' -o yaml --o-filter '$[0]'
+kubeopenapi-jsonschema --location ./k8s.json -f '$.definitions' -t json --o-filter '$[0][?(@["x-kubernetes-group-version-kind"][0].kind=="Deployment")].properties.spec' --resolve "$"
 ```
+
+The above will consume kubernetes open API schema and will produce schema for Kubernetes `Deployment`
+
+
+```bash
+kubeopenapi-jsonschema --location ./istio.yaml -t yaml --filter '$[?(@.kind=="CustomResourceDefinition")]..schema.openAPIV3Schema.properties.spec' --o-filter '$' 
+```
+
+The above will consume istio CRD manifest and will produce schema for all of the CustomResourceDefinition objects
 
 <div>&nbsp;</div>
 
