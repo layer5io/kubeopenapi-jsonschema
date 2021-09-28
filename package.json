@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "@openapi-contrib/openapi-schema-to-json-schema": "^3.1.1",
+    "@stoplight/json-ref-resolver": "^3.1.3",
     "commander": "^7.2.0",
     "js-yaml": "^4.1.0",
     "jsonpath": "^1.1.1"
