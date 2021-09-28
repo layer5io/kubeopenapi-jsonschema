@@ -26,4 +26,6 @@ jobs:
         with:
           artifacts: 'kubeopenapi-jsonschema*'
           allowUpdates: true
+          omitBodyDuringUpdate: true
+          omitNameDuringUpdate: true
           token: ${{ secrets.GITHUB_TOKEN }}
