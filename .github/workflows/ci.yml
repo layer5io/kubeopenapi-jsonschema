@@ -70,57 +70,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-        
     - run: GOPROXY=direct GOSUMDB=off GO111MODULE=on go build -tags draft ./cmd/main.go
-  build-ui:
-    name: UI build
-    runs-on: ubuntu-latest
-    steps:
-    - name: Check out code
-      uses: actions/checkout@master
-      with:
-        fetch-depth: 1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: ${{ secrets.NODE_VERSION }}
-    - uses: actions/cache@v1
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-    - run: |
-        cd ui
-        npm i
-        npm run build && npm run export
-        cd ..
-        cd provider-ui
-        npm i
-        npm run build && npm run export
-  tests-ui:
-    name: UI tests
-    runs-on: ubuntu-latest
-    steps:
-    - name: Check out code
-      uses: actions/checkout@master
-      with:
-        fetch-depth: 1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: ${{ secrets.NODE_VERSION }}
-    - uses: actions/cache@v1
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-    - run: |
-        cd ui
-        npm i
-        npm test
-        cd ..
-        cd provider-ui
-        npm i
-        npm test
-        cd ..
   mesheryctl_build:
     name: Mesheryctl build & release
     runs-on: macos-latest
