@@ -15,7 +15,8 @@ program
   .option("--kubernetes", "enable kubernetes specific filters", false)
   .option("-o [output-format]", "output format", "json")
   .option("--o-filter [output-filter]", "output filter query")
-  .option("--silent", "skip output", false);
+  .option("--silent", "skip output", false)
+  .option("--resolve [resolve-filter]", "root of the OpenAPI spec to resolve the $ref", "")
 
 program.parse(process.argv);
 
@@ -25,7 +26,8 @@ Output(
   ToJSONSchema(
     options.location,
     options.type,
-    CreateQuery(options.filter, options.kubernetes)
+    CreateQuery(options.filter, options.kubernetes),
+    options.resolve,
   ),
   options.o,
   options.oFilter,

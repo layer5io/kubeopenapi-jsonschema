@@ -5,6 +5,7 @@ const { readFileSync, writeFileSync } = require("fs");
 const { tmpdir } = require("os");
 const path = require("path");
 const jp = require("jsonpath");
+const { Resolver } = require("@stoplight/json-ref-resolver");
 
 /**
  * convertAllSchemasToJSONSchema takes in the OpenAPIV3 Schemas in an array
@@ -23,17 +24,39 @@ function convertAllSchemasToJSONSchema(schemas) {
  * readSchema will read schema file from the given location, it expects
  * the schema to be in JSON format
  *
- * readSchema will also apply the given jsonpath filter to the read schema
- * and will return only the filtered JSONs
+ * readSchema will also resolve the references if a resolveQuery is passed
  * @param {string} location
- * @param {string} query jsonpath based query
- * @returns {any[]}
+ * @param {string} resolveQuery jsonpath based query - must resolve to EXACTLY one match or else is ignored
+ * @returns {Promise<any[]>}
  */
-function readSchema(location, query) {
+async function readSchema(location, resolveQuery) {
   const data = readFileSync(location, "utf-8");
   const parsed = JSON.parse(data);
 
-  return jp.query(parsed, query);
+  if (resolveQuery) {
+    const inner = jp.query(parsed, resolveQuery);
+
+    if (inner.length !== 1) return parsed;
+
+    const resolver = new Resolver();
+    const resolved = await resolver.resolve(inner[0], {});
+
+    if (resolved.errors.length) console.error(resolved.errors);
+
+    return resolved.result;
+  }
+
+  return parsed;
+}
+
+/**
+ * filterSchemas takes in an array of schemas and will return an array of filtered schemas
+ * @param {Array<any>} schemas - OpenAPI schema in JSON format
+ * @param {string} query jsonpath based query to filter out the data
+ * @returns {Array<any>}
+ */
+function filterSchemas(schemas, query) {
+  return jp.query(schemas, query);
 }
 
 /**
@@ -72,16 +95,19 @@ function setupFiles(location, type) {
  * @param {string} location location of the schemas in open api v3 format
  * @param {"yaml" | "json"} type encoding in which the openapi schema is present
  * @param {string} query jsonpath query to filter the read schemas
+ * @param {string} resolve jsonpath query to reach to the root of the openAPI spec
  */
-function ToJSONSchema(location, type = "yaml", query = "") {
+async function ToJSONSchema(location, type = "yaml", query = "", resolve = "") {
   if (type !== "yaml" && type !== "json")
     throw Error('invalid type received: can be either "yaml" or "json"');
 
   const source = setupFiles(location, type);
 
-  const schemas = readSchema(source, query);
+  const schemas = await readSchema(source, resolve);
 
-  return convertAllSchemasToJSONSchema(schemas);
+  const filtered = filterSchemas(schemas, query);
+
+  return convertAllSchemasToJSONSchema(filtered);
 }
 
 module.exports = ToJSONSchema;
