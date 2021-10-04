@@ -43,7 +43,7 @@ The above will consume istio CRD manifest and will produce schema for all of the
 Our projects are community-built and welcome collaboration. 👍 Be sure to see the <a href="https://docs.google.com/document/d/17OPtDE_rdnPQxmk2Kauhm3GwXF1R5dZ3Cj8qZLKdo5E/edit">Layer5 Community Welcome Guide</a> for a tour of resources available to you and jump into our <a href="http://slack.layer5.io">Slack</a>!
 
 <p style="clear:both;">
-<a href ="https://layer5.io/community/meshmates"><img alt="MeshMates" src=".github/readme/images/Layer5-MeshMentors.png" style="margin-right:10px; margin-bottom:7px;" width="28%" align="left" /></a>
+<a href ="https://layer5.io/community/meshmates"><img alt="MeshMates" src="https://github.com/layer5io/discuss-board/blob/2104c97937f0bea02602bd5f04e65d535f0bf0e2/.github/readme/images/Layer5-MeshMentors-1.png" style="margin-right:10px; margin-bottom:7px;" width="28%" align="left" /></a>
 <h3>Find your MeshMate</h3>
 
 <p>MeshMates are experienced Layer5 community members, who will help you learn your way around, discover live projects and expand your community network. 
