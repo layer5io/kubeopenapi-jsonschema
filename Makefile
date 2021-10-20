@@ -8,3 +8,6 @@ linux:
 
 windows:
 	nexe index.js -t windows-x64 -o kubeopenapi-jsonschema -r "./node_modules/**/*"
+
+alpine:
+	nexe index.js -t alpine-x64 -o kubeopenapi-jsonschema -r "./node_modules/**/*"

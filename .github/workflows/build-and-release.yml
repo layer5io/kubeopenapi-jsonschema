@@ -1,0 +1,31 @@
+name: Build and Release
+on:
+  release:
+    types: [published]
+
+jobs:
+  build_and_release:
+    name: Build and release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.9.1
+          cache: 'npm'
+      - name: Setup dependencies
+        run: |
+          npm ci
+          npm i -g nexe
+      - name: Build artifacts
+        run: make
+      - name: Release artifacts
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: 'kubeopenapi-jsonschema*'
+          allowUpdates: true
+          omitBodyDuringUpdate: true
+          omitNameDuringUpdate: true
+          token: ${{ secrets.GITHUB_TOKEN }}
