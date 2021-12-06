@@ -10,7 +10,7 @@ program
     "set type of input, can be either yaml or json",
     "yaml"
   )
-  .option("-l, --location <location>", "location of the schema")
+  .requiredOption("-l, --location <location>", "location of the schema")
   .option("-f, --filter [query]", "give a query if a OpenAPISchema is nested")
   .option("--kubernetes", "enable kubernetes specific filters", false)
   .option("-o [output-format]", "output format", "json")
