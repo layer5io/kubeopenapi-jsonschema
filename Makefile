@@ -23,7 +23,7 @@ darwin-arm:
 	nexe index.js -t darwin-arm64 --build -o kubeopenapi-jsonschema-darwin -r "./node_modules/**/*"
 
 linux-arm:
-	nexe index.js -t linux-arm64 --build -o kubeopenapi-jsonschema -r "./node_modules/**/*"
+	nexe index.js -t arm64 --build -o kubeopenapi-jsonschema -r "./node_modules/**/*"
 
 windows-arm:
 	nexe index.js -t windows-arm64 --build -o kubeopenapi-jsonschema -r "./node_modules/**/*"
