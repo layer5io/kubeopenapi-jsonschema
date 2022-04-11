@@ -1,0 +1,27 @@
+name: Build
+on:
+  push:
+    branches:
+      - 'master'
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3.1.1
+        with:
+          node-version: 12.9.1
+          cache: 'npm'
+      - name: Setup dependencies
+        run: |
+          npm ci
+          npm i -g nexe
+      - name: Build artifacts
+        run: make
+
